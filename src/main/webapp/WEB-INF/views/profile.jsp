@@ -73,6 +73,8 @@
                <input type="text" placeholder="Enter lastname" name="lastName" id="lastName" value="<%=c.getLastName()%>"/> 
                <label>Email ID * </label>
                 <input type="text" placeholder="Enter email" name="email" id="email" value="<%=c.getEmail()%>"/> 
+                <label>Password * </label>
+				 <input type="password" placeholder="Enter new password" name="password" id="password"/>
                 
             </div>
             

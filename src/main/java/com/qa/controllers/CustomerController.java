@@ -87,10 +87,10 @@ public class CustomerController {
 		
 		ModelAndView modelAndView  = null;
 		
-		System.out.println("Customer Firstname is "+customer.getFirstName());
+		//System.out.println("Customer Firstname is "+customer.getFirstName());
 		
 		
-		System.out.println("Customer Password is "+customer.getPassword());
+		//System.out.println("Customer Password is "+customer.getPassword());
 		
 		Customer c = customerService.saveCustomer(customer);
 	  
@@ -113,10 +113,10 @@ public class CustomerController {
 		
 		ModelAndView modelAndView  = null;
 		
-		System.out.println("Email is "+email);
+		//System.out.println("Email is "+email);
 		
 		
-		System.out.println("Password is "+password);
+		//System.out.println("Password is "+password);
 		
 		
 		Customer c = customerService.loginProcess(email, password);
@@ -154,28 +154,29 @@ public class CustomerController {
 		
 		ModelAndView modelAndView  = null;
 		
-		System.out.println("Before update ");
-
-		System.out.println("ID "+loggedInCustomer.getCustomerId());
-		System.out.println("Name"+loggedInCustomer.getFirstName());
-		System.out.println("Email"+loggedInCustomer.getEmail());
+//		System.out.println("Before update ");
+//
+//		System.out.println("ID "+loggedInCustomer.getCustomerId());
+//		System.out.println("Name"+loggedInCustomer.getFirstName());
+//		System.out.println("Email"+loggedInCustomer.getEmail());
 		
 		
 		int recordsUpdated = customerService.updateCustomer(loggedInCustomer.getFirstName(),
 				loggedInCustomer.getLastName(),
 				loggedInCustomer.getEmail(), 
-				loggedInCustomer.getCustomerId());
+				loggedInCustomer.getCustomerId(),
+				loggedInCustomer.getPassword());
 		
 		if(recordsUpdated>0)
 		{
 			Customer c  = customerService.findCustomerById(loggedInCustomer.getCustomerId());
 		
 			
-			System.out.println("After update ");
-
-			System.out.println("ID "+c.getCustomerId());
-			System.out.println("Name"+c.getFirstName());
-			System.out.println("Email"+c.getEmail());
+//			System.out.println("After update ");
+//
+//			System.out.println("ID "+c.getCustomerId());
+//			System.out.println("Name"+c.getFirstName());
+//			System.out.println("Email"+c.getEmail());
 			
 			
 			modelAndView = new ModelAndView("profile","logged_in_customer",c);
