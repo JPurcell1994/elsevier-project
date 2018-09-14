@@ -2,18 +2,25 @@ package com.qa.models;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.ElementCollection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.servlet.jsp.tagext.Tag;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-@Entity
+@Entity(name ="Book")
+@Table(name ="book")
 public class Book {
 	
 	@Id
+	@GeneratedValue
 	private int bookId;
 	
 	private String title;
@@ -31,11 +38,36 @@ public class Book {
 	public List<Author> getAuthors() {
 		return authors;
 	}
-
-	@Autowired
-	@ElementCollection
-	private List<Author> authors;
 	
+	@ManyToMany(cascade = { 
+	        CascadeType.PERSIST, 
+	        CascadeType.MERGE
+	    })
+	    @JoinTable(name = "book_author",
+	        joinColumns = @JoinColumn(name = "book_id"),
+	        inverseJoinColumns = @JoinColumn(name = "author_id")
+	    )
+	    private List<Author> authors = new ArrayList<>();
+	 
+	    //Getters and setters ommitted for brevity
+	 
+	    public void addAuthor(Author a) {
+	    	authors.add(a);
+	        a.getBooks().add(this);
+	    }
+	 
+	    public void removeAuthor(Author a) {
+	    	authors.remove(a);
+	        a.getBooks().remove(this);
+	    }
+
+//	@Autowired
+//	@ElementCollection
+//	private List<Author> authors;
+	
+//	@OneToMany(mappedBy="bookId",fetch=FetchType.EAGER)
+//	private List<Author> authors;
+//	
 	public void setAuthors(List<Author> authors) {
 		this.authors = authors;
 	}

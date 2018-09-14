@@ -1,15 +1,26 @@
 package com.qa.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import java.util.ArrayList;
+import java.util.List;
 
-@Entity
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.NaturalId;
+
+@Entity(name="Author")
+@Table (name="author")
 public class Author {
 
 	
 	@Id
+	@GeneratedValue
 	private int authorId;
 	
+	@NaturalId
 	private String authorName;
 	
 	private String aboutAuthor;
@@ -18,6 +29,13 @@ public class Author {
 	
 	private String expertise;
 
+	@ManyToMany(mappedBy = "authors")
+    private List<Book> books = new ArrayList<>();
+	
+	
+	public List<Book> getBooks() {
+		return this.books;
+	}
 	public int getAuthorId() {
 		return authorId;
 	}

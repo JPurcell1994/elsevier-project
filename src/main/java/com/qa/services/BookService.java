@@ -1,5 +1,7 @@
 package com.qa.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +14,32 @@ public class BookService {
 	@Autowired
 	private BookRepository bookRepository;
 	
-	public Iterable<Book> findAllBooks()
-	{
-		return bookRepository.findAll();
+//	public Iterable<Book> findAllBooks()
+//	{
+//		return bookRepository.findAll();
+//		
+//	}
+	
+	public Book registerBook(Book c) {
+	//	c.setAuthors(List<"Rus">);
+	//	c.setTitle("My Booky Wooky");
+		return bookRepository.save(c);
 		
 	}
 
+	public void findBookById(int bookId) {    //before Book
+	//	return //bookRepository.findBookById(bookId);
+	}
+	
+	public List<Book> findBookByTerm(String searchTerm) {
+		return (List<Book>) bookRepository.findBookByTerm(searchTerm);
+	}
+	
+	
+	public List<Book> loadAllBooks() {
+		// TODO Auto-generated method stub
+		return (List<Book>) bookRepository.findAll();
+	}
+
 }
+

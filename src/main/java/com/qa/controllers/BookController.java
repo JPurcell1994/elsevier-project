@@ -34,6 +34,15 @@ public class BookController {
 		
 	}
 	
+	@RequestMapping("/search_results")
+	public ModelAndView searchBook(@RequestParam("searchTerm") String searchTerm){
+		ModelAndView modelAndView = null;
+		Iterable<Book> search_results = bookService.findBookByTerm(searchTerm);
+		System.out.println(search_results);
+		modelAndView = new ModelAndView("search_results", "books", search_results);
+		return modelAndView;
+	}
+	
 	
 	@RequestMapping("/addToCart")
 	public ModelAndView addToCart(@ModelAttribute("books") Iterable<Book> books,

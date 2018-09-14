@@ -28,6 +28,7 @@ public class CustomerController {
 	@Autowired
 	CustomerService customerService;
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/")
 	public ModelAndView indexPage(HttpServletRequest request)
 	{
@@ -47,7 +48,7 @@ public class CustomerController {
 		}
 		
 	
-		Iterable<Book> books = bookService.findAllBooks();
+		Iterable<Book> books = bookService.loadAllBooks();
 		
 		ModelAndView modelAndView = new ModelAndView("index","books",books);
 		
