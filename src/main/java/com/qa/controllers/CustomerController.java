@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.qa.models.Book;
@@ -194,6 +195,12 @@ public class CustomerController {
 	}
 	
 	
-	
+	@RequestMapping("/logout")
+	public String logout(SessionStatus sessionStatus)
+	{
+		sessionStatus.setComplete();
+		
+	    return "redirect:/";
+	}
 	
 }
