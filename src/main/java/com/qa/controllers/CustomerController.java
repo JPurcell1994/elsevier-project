@@ -37,6 +37,10 @@ public class CustomerController {
 		
 		HttpSession session = request.getSession();
 		
+		if(session.getAttribute("logged_in_customer") != null) {
+			return new ModelAndView("customer_home");
+		}
+		
 		Object items = session.getAttribute("cart_items");
 		
 		if(items!=null)
