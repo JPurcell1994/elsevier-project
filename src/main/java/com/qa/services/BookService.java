@@ -20,9 +20,11 @@ public class BookService {
 //		
 //	}
 	
-	public Book registerBook(Book c) {
-	//	c.setAuthors(List<"Rus">);
-	//	c.setTitle("My Booky Wooky");
+	public Book saveBook(Book c) {
+//	c.setAuthors("Rus");
+//	c.setTitle("My Booky Wooky");
+		
+		//c.addAuthor(new Author );
 		return bookRepository.save(c);
 		
 	}

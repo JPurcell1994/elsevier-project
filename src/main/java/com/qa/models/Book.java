@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -20,7 +21,7 @@ import javax.servlet.jsp.tagext.Tag;
 public class Book {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int bookId;
 	
 	private String title;
@@ -39,14 +40,24 @@ public class Book {
 		return authors;
 	}
 	
-	@ManyToMany(cascade = { 
-	        CascadeType.PERSIST, 
-	        CascadeType.MERGE
-	    })
-	    @JoinTable(name = "book_author",
-	        joinColumns = @JoinColumn(name = "book_id"),
-	        inverseJoinColumns = @JoinColumn(name = "author_id")
-	    )
+	@ManyToMany(cascade = 
+        {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "book_author",
+        joinColumns = {
+            @JoinColumn(
+                name = "book_id", 
+                referencedColumnName = "bookId"
+            )
+        },
+        inverseJoinColumns = {
+            @JoinColumn(
+                name = "author_id", 
+                referencedColumnName = "authorId"
+            )
+        }
+    )
+
+
 	    private List<Author> authors = new ArrayList<>();
 	 
 	    //Getters and setters ommitted for brevity
@@ -59,6 +70,12 @@ public class Book {
 	    public void removeAuthor(Author a) {
 	    	authors.remove(a);
 	        a.getBooks().remove(this);
+	        
+	    
+	    }
+	    
+	    public Author getAuthor() {
+	    	return authors.get(0);
 	    }
 
 //	@Autowired

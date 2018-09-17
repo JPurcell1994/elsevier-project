@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.qa.models.Author;
 import com.qa.models.Book;
+import com.qa.repositories.AuthorRepository;
 import com.qa.repositories.BookRepository;
 
 @Controller
@@ -22,11 +24,13 @@ public class BookController {
 
 	@Autowired
 	BookRepository bookService;
+	AuthorRepository authorService;
 	
 	@RequestMapping("/bookDetails")
 	public ModelAndView bookDetails(@ModelAttribute("books") Iterable<Book> books,@RequestParam("bookId") int bookId)
 	{
 		Book book = findBookById(books, bookId);
+		
 		
 		ModelAndView modelAndView = new ModelAndView("book_details","book",book);
 		modelAndView.addObject("books", books);
@@ -61,6 +65,8 @@ public class BookController {
 		return modelAndView;
 		
 	}
+	
+	
 	
 	@RequestMapping("/viewCart")
 	public ModelAndView viewCart(@ModelAttribute("books") Iterable<Book> books,@ModelAttribute("cart_items") ArrayList<Book> cartItems)
