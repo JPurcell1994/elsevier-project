@@ -40,17 +40,10 @@
     </div>
     <!-- End Top Bar -->
 
- <form action="/search_results" method="get"> 
-              
-               <label>book search< /label>
-                <input type="text" placeholder="Enter Title/Author" name="searchTerm" id="searchTerm"/> 
-          
-            	<input type="submit" class="button expanded" value="plz work">
-              
-              </form>
+
     
     <div class="row column text-center">
-      <h2>Our Newest Books
+      <h2>Search Results
       
       
       <%

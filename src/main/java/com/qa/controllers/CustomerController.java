@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.qa.models.Author;
 import com.qa.models.Book;
 import com.qa.models.Customer;
+import com.qa.services.AuthorService;
 import com.qa.services.BookService;
 import com.qa.services.CustomerService;
 
@@ -24,10 +26,13 @@ public class CustomerController {
 
 	@Autowired
 	BookService bookService;
+	@Autowired
+	AuthorService authorService;
 	
 	@Autowired
 	CustomerService customerService;
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/")
 	public ModelAndView indexPage(HttpServletRequest request)
 	{
@@ -47,7 +52,7 @@ public class CustomerController {
 		}
 		
 	
-		Iterable<Book> books = bookService.findAllBooks();
+		Iterable<Book> books = bookService.loadAllBooks();
 		
 		ModelAndView modelAndView = new ModelAndView("index","books",books);
 		
@@ -55,6 +60,59 @@ public class CustomerController {
 		return modelAndView;
 		
 	}
+	
+	@RequestMapping("/addAuthorProcess")
+	public ModelAndView addAuthorProcess(@ModelAttribute("Author") Author author)
+	{
+		
+		ModelAndView modelAndView = null;
+		
+		Author a = authorService.saveAuthor(author);
+		
+		
+		
+		if(a!= null)
+		{
+		
+			modelAndView = new ModelAndView("author_added");
+			
+		}
+		else
+		{
+			modelAndView = new ModelAndView("author_failed");
+		}
+		return modelAndView;
+	}
+	
+	@RequestMapping("/addBookProcess")
+	public ModelAndView addBookProcess(@ModelAttribute("Book") Book book, @RequestParam("authorId") int authorId)
+	{
+		
+		ModelAndView modelAndView = null;
+		
+		Author a = authorService.findAuthorById(authorId);
+		
+		book.addAuthor(a);
+		
+		Book b = bookService.saveBook(book);
+		
+		
+		
+		
+		
+		if(b!= null)
+		{
+		
+			modelAndView = new ModelAndView("book_added");
+			
+		}
+		else
+		{
+			modelAndView = new ModelAndView("book_failed");
+		}
+		return modelAndView;
+	}
+	
 
 	@RequestMapping("/login")
 	public ModelAndView login()
@@ -73,6 +131,21 @@ public class CustomerController {
 	    return modelAndView;
 	}
 	
+	@RequestMapping("/add_author")
+	public ModelAndView addAuthor()
+	{
+		ModelAndView modelAndView = new ModelAndView("add_author");
+	
+	    return modelAndView;
+	}
+	
+	@RequestMapping("/add_book")
+	public ModelAndView addBook()
+	{
+		ModelAndView modelAndView = new ModelAndView("add_book");
+	
+	    return modelAndView;
+	}
 	
 	
 
