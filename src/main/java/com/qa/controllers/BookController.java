@@ -15,11 +15,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.qa.models.Author;
 import com.qa.models.Book;
+import com.qa.models.Customer;
 import com.qa.repositories.AuthorRepository;
 import com.qa.repositories.BookRepository;
 
 @Controller
-@SessionAttributes(names={"books","cart_items","book_counts","filtered_books"})
+@SessionAttributes(names={"books","cart_items","book_counts","filtered_books","logged_in_customer"})
 public class BookController {
 
 	@Autowired
@@ -27,13 +28,15 @@ public class BookController {
 	AuthorRepository authorService;
 	
 	@RequestMapping("/bookDetails")
-	public ModelAndView bookDetails(@ModelAttribute("books") Iterable<Book> books,@RequestParam("bookId") int bookId)
+	public ModelAndView bookDetails(@ModelAttribute("logged_in_customer") Customer loggedInCustomer, @ModelAttribute("books") Iterable<Book> books,@RequestParam("bookId") int bookId)
 	{
 		Book book = findBookById(books, bookId);
 		
 		
 		ModelAndView modelAndView = new ModelAndView("book_details","book",book);
 		modelAndView.addObject("books", books);
+		
+		modelAndView.addObject("logged_in_customer", loggedInCustomer);
 		return modelAndView;
 		
 	}
@@ -50,8 +53,7 @@ public class BookController {
 //	}
 	
 	@RequestMapping("/filter_results")
-	public ModelAndView filterResults(@ModelAttribute("books") Iterable<Book> books,
-			@RequestParam("genre") String[] genre)
+	public ModelAndView filterResults(@RequestParam("genre") String[] genre)
 	{
 		//ModelAndView modelAndView = null;
 		Iterable<Book> filter_results = bookService.findBookByGenre(genre);
@@ -64,7 +66,7 @@ public class BookController {
 		
 	//	cartItems.add(book);
 		
-		modelAndView.addObject("books", filter_results);
+		//modelAndView.addObject("books", filter_results);
 		return modelAndView;
 		
 	}

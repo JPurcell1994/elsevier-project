@@ -32,6 +32,17 @@ public class CustomerController {
 	@Autowired
 	CustomerService customerService;
 	
+	
+	
+	@ModelAttribute
+	public Customer c()
+	{
+		
+		return new Customer();
+	}
+	
+	
+	
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/")
 	public ModelAndView indexPage(HttpServletRequest request)
@@ -40,6 +51,8 @@ public class CustomerController {
 		ArrayList<Book> cartItems = null;
 		
 		HttpSession session = request.getSession();
+		if(session.getAttribute("logged_in_customer")==null)
+		  session.setAttribute("logged_in_customer", new Customer());
 		
 		Object items = session.getAttribute("cart_items");
 		
@@ -192,7 +205,7 @@ public class CustomerController {
 		if(c!=null)
 		{
 			System.out.println("Success");
-	  		modelAndView = new ModelAndView("customer_home","logged_in_customer",c);
+	  		modelAndView = new ModelAndView("index","logged_in_customer",c);
 		}
 		else
 		{
@@ -246,11 +259,11 @@ public class CustomerController {
 			System.out.println("Email"+c.getEmail());
 			
 			
-			modelAndView = new ModelAndView("profile","logged_in_customer",c);
+			modelAndView = new ModelAndView("index","logged_in_customer",c);
 		}
 		else
 		{
-			modelAndView = new ModelAndView("profile","logged_in_customer",loggedInCustomer);
+			modelAndView = new ModelAndView("index","logged_in_customer",loggedInCustomer);
 		}
 		
 		return modelAndView;
