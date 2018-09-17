@@ -37,6 +37,10 @@ public class BookService {
 		return (List<Book>) bookRepository.findBookByTerm(searchTerm);
 	}
 	
+	public List<Book> findBookByGenre(String[] searchTerm) {
+		return (List<Book>) bookRepository.findBookByGenre(searchTerm);
+	}
+	
 	
 	public List<Book> loadAllBooks() {
 		// TODO Auto-generated method stub

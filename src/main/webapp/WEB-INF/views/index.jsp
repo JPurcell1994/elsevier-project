@@ -1,4 +1,5 @@
 <!doctype html>
+<%@page import="com.qa.models.Customer"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
@@ -11,6 +12,25 @@
     <link rel="stylesheet" href="css/style.css"/>
   </head>
   <body>
+  
+   <%!
+  
+  Customer c;
+  boolean loggedIn;
+  
+  %>
+  
+  
+  <%
+  loggedIn = true;
+ 		c = (Customer) session.getAttribute("logged_in_customer");
+ if(c.getFirstName()==null){
+	  loggedIn = false;
+  }
+  
+  %>
+  
+  
 
     <!-- Start Top Bar -->
     <div class="top-bar">
@@ -39,6 +59,12 @@
       </div>
     </div>
     <!-- End Top Bar -->
+    <%
+    if(loggedIn){
+    %>
+    <h3>You have logged in as <%=c.getFirstName()%></h3>   <!-- IF LOGGED IN PUT LAYOUT HERE -->
+    <%}%>
+	
 
  <form action="/search_results" method="get"> 
               
