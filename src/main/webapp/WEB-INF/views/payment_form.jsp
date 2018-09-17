@@ -15,7 +15,7 @@
   </head>
   <body>
     
-    <form action="/checkoutProcess" method="post">
+    <form action="/paymentComplete" method="post">
     
     
     <%
@@ -148,7 +148,17 @@
             <input type="checkbox" name="same" id="same"/> My billing and shipping address are the same
           </div>
           
+          <div>
+          
+          	
+          		<input type="submit" class="button large expanded" value="Pay"/> 
+          	
+      	  </div>
+          
         </div>
+        
+        </form> 
+        
         
         <div class="row small-up-4">
           
