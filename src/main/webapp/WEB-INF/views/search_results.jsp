@@ -3,6 +3,8 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="com.qa.models.Book"%>
+<%@ page import="java.sql.*" %>
+<%ResultSet resultset =null;%>
 <html class="no-js" lang="en">
   <head>
     <meta charset="utf-8" />
@@ -11,13 +13,12 @@
     <link rel="stylesheet" href="css/style.css"/>
   </head>
   <body>
-
     <!-- Start Top Bar -->
     <div class="top-bar">
       <div class="top-bar-left">
         <ul class="menu">
           <li class="menu-text" style="color:red">Online Shopping</li>
-          <li><a href="#">Home</a></li>
+          <li><a href="/index">Home</a></li>
           
         </ul>
       </div>
@@ -39,8 +40,35 @@
       </div>
     </div>
     <!-- End Top Bar -->
+<%
+    try{
+//Class.forName("com.mysql.jdbc.Driver").newInstance();
+Connection connection = 
+         DriverManager.getConnection
+            ("jdbc:mysql://localhost/elsevier?user=root&password=");
+       Statement statement = connection.createStatement() ;
+       resultset =statement.executeQuery("SELECT DISTINCT genre FROM book;") ;
+       System.out.println(resultset);
+%>
 
-
+ <div class="row column text-center">
+    <form action="/filter_results" method="get">
+     <!--  <input type="text" placeholder="Enter book title" name="searchTerm" id="searchTerm"> -->
+        <%  while(resultset.next()){ %>
+                    <input type="checkbox" name="genre" value="<%=resultset.getString(1)%>"> <%=resultset.getString(1)%><br>
+                <% } %>
+                
+        <input type="submit">
+    </form>
+    </div>
+         <%
+//**Should I input the codes here?**
+        }
+        catch(Exception e)
+        {
+             out.println("wrong entry"+e);
+        }
+%>
     
     <div class="row column text-center">
       <h2>Search Results
@@ -55,7 +83,6 @@
       </h2>
       <hr>
     </div>
-
     <div class="row small-up-2 large-up-4">
     
     <%
@@ -78,9 +105,7 @@
     }
     %>  
     </div>
-
     <hr>
-
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="js/elsevier.js"></script>
     <script>

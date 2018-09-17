@@ -38,6 +38,37 @@ public class BookController {
 		
 	}
 	
+//	@RequestMapping("/filter_results")
+//	public ModelAndView searchBookGenres(@RequestParam("searchTerm") String searchTerm){
+//		ModelAndView modelAndView = null;
+//		Iterable<Book> search_results = bookService.findBookByGenre(searchTerm);
+//		System.out.println(search_results);
+//		modelAndView = new ModelAndView("search_results", "books", search_results);
+//		return modelAndView;
+	
+	
+//	}
+	
+	@RequestMapping("/filter_results")
+	public ModelAndView filterResults(@ModelAttribute("books") Iterable<Book> books,
+			@RequestParam("genre") String[] genre)
+	{
+		//ModelAndView modelAndView = null;
+		Iterable<Book> filter_results = bookService.findBookByGenre(genre);
+	
+	//	Iterator<Book> total = new IteratorIterator<Book>(books,filter_results);
+		ModelAndView modelAndView = new ModelAndView("search_results","books",filter_results);
+
+		//bookscurent = book session
+		// bookcurrent = bookcurren t+ fitler_resultd
+		
+	//	cartItems.add(book);
+		
+		modelAndView.addObject("books", filter_results);
+		return modelAndView;
+		
+	}
+	
 	@RequestMapping("/search_results")
 	public ModelAndView searchBook(@RequestParam("searchTerm") String searchTerm){
 		ModelAndView modelAndView = null;
@@ -46,7 +77,6 @@ public class BookController {
 		modelAndView = new ModelAndView("search_results", "books", search_results);
 		return modelAndView;
 	}
-	
 	
 	@RequestMapping("/addToCart")
 	public ModelAndView addToCart(@ModelAttribute("books") Iterable<Book> books,
@@ -65,6 +95,9 @@ public class BookController {
 		return modelAndView;
 		
 	}
+	
+
+
 	
 	
 	
