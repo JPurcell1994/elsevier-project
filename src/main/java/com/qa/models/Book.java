@@ -36,6 +36,16 @@ public class Book {
 	
 	private int pageCount;
 	
+	private String genre;
+	
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
+
 	public List<Author> getAuthors() {
 		return authors;
 	}
