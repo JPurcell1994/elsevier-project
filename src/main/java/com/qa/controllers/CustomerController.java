@@ -129,7 +129,7 @@ public class CustomerController {
 		else
 		{
 			System.out.println("Failure");
-			modelAndView = new ModelAndView("login_failed");
+			modelAndView = new ModelAndView("login", "failure", true);
 		}
 	  		
 		return modelAndView;

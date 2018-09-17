@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
+  
+    <%
+ 		Boolean failure = (Boolean) request.getAttribute("failure");
+  	%>
     
     <!-- Start Top Bar -->
     <div class="top-bar">
@@ -42,6 +46,12 @@
         
         <div class="medium-6">
            <h3> Please login using your stored credentials  </h3>
+           
+           <%
+           	if(failure != null) {
+           		%> <h4>Invalid credentials</h4> <%
+           	}
+           %>
                 
                <form action="loginProcess" method="post"> 
               
