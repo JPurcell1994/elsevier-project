@@ -77,7 +77,7 @@
         <div class="row small-up-shiping">
         
           <div class="columns">
-            <label> Firstname * </label>
+            <label> Firstname </label>
             <input type="text" name="firstName" id="firstName" size="30"/> 
           </div>
           <div class="columns">
@@ -97,8 +97,7 @@
             <label> City * </label>
             <input type="text" name="city" id="city" size="30"/>
           </div>
-          
-       <!--    <div class="column">
+      	  <div class="column">
             <label> Postcode / Zip code * </label>
             <input type="text" name="postcode" id="postcode" size="30"/>
           </div>
@@ -106,9 +105,9 @@
           <div class="column">
             <label> State/Province * </label>
             <input type="text" name="state" id="state" size="30"/>
-          </div> -->
+          </div> 
           
-   <!--        <div class="column">
+         <div class="column">
             <label> Country</label>
             <input type="text" name="country" id="country" size="30"/>
           </div>
@@ -124,10 +123,30 @@
             <input type="text" name="email" id="email" size="30"/>
           </div>
           
+          <div class="column">
+            <label> Card Holder Name * </label>
+            <input type="text" name="cardHolderName" id="cardHolderName" size="30"/>
+          </div>
+          
+          <div class="column">
+            <label> Card Number * </label>
+            <input type="number" name="cardNumber" id="cardNumber" size="30"/>
+          </div>
+          
+          <div class="column">
+            <label> Expiry Date * </label>
+            <input type="date" name="expiryDate" id="expiryDate" size="30"/>
+          </div>
+          
+          <div class="column">
+            <label> Security No. * </label>
+            <input type="number" name="securityNo" id="securityNo" size="30"/>
+          </div>
+          
           
           <div class="column">
             <input type="checkbox" name="same" id="same"/> My billing and shipping address are the same
-          </div> -->
+          </div>
           
         </div>
         
