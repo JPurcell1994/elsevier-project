@@ -38,7 +38,7 @@
     <div class="callout large">
       <div class="row column">
         
-        <form action="/addAuthor" method="get">
+        <form action="/addAuthorProcess" method="get">
         <div class="medium-6">
            <h3> Add an author  </h3>
                 

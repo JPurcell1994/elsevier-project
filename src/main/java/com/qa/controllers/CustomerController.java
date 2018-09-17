@@ -61,8 +61,8 @@ public class CustomerController {
 		
 	}
 	
-	@RequestMapping("/addAuthor")
-	public ModelAndView addAuthor(@ModelAttribute("Author") Author author)
+	@RequestMapping("/addAuthorProcess")
+	public ModelAndView addAuthorProcess(@ModelAttribute("Author") Author author)
 	{
 		
 		ModelAndView modelAndView = null;
@@ -84,8 +84,8 @@ public class CustomerController {
 		return modelAndView;
 	}
 	
-	@RequestMapping("/addBook")
-	public ModelAndView addAuthor(@ModelAttribute("Book") Book book, @RequestParam("authorId") int authorId)
+	@RequestMapping("/addBookProcess")
+	public ModelAndView addBookProcess(@ModelAttribute("Book") Book book, @RequestParam("authorId") int authorId)
 	{
 		
 		ModelAndView modelAndView = null;

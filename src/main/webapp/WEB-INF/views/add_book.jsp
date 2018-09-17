@@ -49,7 +49,7 @@ Connection connection =
     <div class="callout large">
       <div class="row column">
         
-        <form action="/addBook" method="get">
+        <form action="/addBookProcess" method="get">
         <div class="medium-6">
            <h3> Add Book  </h3>
                 
