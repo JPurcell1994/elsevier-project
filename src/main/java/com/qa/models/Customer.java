@@ -8,6 +8,8 @@ import javax.persistence.Id;
 
 import org.apache.tomcat.jni.Address;
 
+import com.qa.Utils;
+
 @Entity
 public class Customer {
 
@@ -63,7 +65,7 @@ public class Customer {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = Utils.hashPassword(password);
 	}
 	
 	
