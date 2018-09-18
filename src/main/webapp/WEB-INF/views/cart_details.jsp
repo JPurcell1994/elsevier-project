@@ -47,7 +47,7 @@
       <div class="top-bar-left">
         <ul class="menu">
           <li class="menu-text" style="color:red">Online Shopping</li>
-          <li><a href="#">Home</a></li>
+          <li><a href="/">Home</a></li>
           
         </ul>
       </div>
@@ -192,9 +192,15 @@
            </div>
       
         </div>
+        
+        <%
+            session.setAttribute("session_cart_total",cartTotal);
+            session.setAttribute("session_checkout",true);
+        %>
 
-		<form action="/checkout" method="post" id="checkout_form">   
-		<input type="hidden" name="order_total" value="<%=cartTotal %>"/>   
+		<form action="/login" method="post" id="checkout_form">   
+		<%-- <input type="hidden" name="order_total" value="<%=cartTotal %>"/>
+		 --%> 
         <input type="submit" class="button large expanded" value="Proceed to Checkout"/>
         </form> 
       </div>  

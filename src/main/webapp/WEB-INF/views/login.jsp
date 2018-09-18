@@ -28,7 +28,12 @@
   </head>
   
   <body>
+  
+    <%
+ 		Boolean failure = (Boolean) request.getAttribute("failure");
+  	%>
     
+
     <header id="header"><!--header-->
         <div class="header_top"><!--header_top-->
             <div class="container">
@@ -43,6 +48,35 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="social-icons pull-right">
+
+    <!-- Start Top Bar -->
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <ul class="menu">
+          <li class="menu-text" style="color:red">Online Shopping</li>
+          <li><a href="/">Home</a></li>
+          
+        </ul>
+      </div>
+      <div class="top-bar-right">
+        
+             <ul class="dropdown menu" data-dropdown-menu>
+            <li id="cart_items"></li>
+            <li class="has-submenu">
+              <a href="/viewCart"> <img src="images/cart.jpg" width="50" height="50"/></a>
+              <ul class="submenu menu vertical" data-submenu>
+                <li><a href="/viewCart"><img src="images/cart.jpg" width="50" height="50"/> View Cart </a></li>
+                <li><a href="/login">Register | Login</a></li>
+              </ul>
+            </li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+          
+      </div>
+    </div>
+    <!-- End Top Bar -->
+
 
    <ul class="nav navbar-nav">
                                 <li><a href=""><i class="fa fa-facebook"></i></a></li>
@@ -150,6 +184,12 @@
         
         <div class="medium-6">
            <h3> Please login using your stored credentials  </h3>
+           
+           <%
+           	if(failure != null) {
+           		%> <h4>Invalid credentials</h4> <%
+           	}
+           %>
                 
                <form action="loginProcess" method="post"> 
               

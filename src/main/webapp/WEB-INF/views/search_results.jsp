@@ -1,46 +1,24 @@
 <!doctype html>
-<%@page import="com.qa.models.Customer"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="com.qa.models.Book"%>
-<%@page import="com.qa.models.Author"%>
+<%@ page import="java.sql.*" %>
+<%ResultSet resultset =null;%>
 <html class="no-js" lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Online Shopping</title>
     <link rel="stylesheet" href="css/style.css"/>
-    
-    
   </head>
   <body>
-  
-   <%!
-  
-  Customer c;
-  boolean loggedIn;
-  
-  %>
-  
-  
-  <%
-  loggedIn = true; 
-  c = (Customer) session.getAttribute("logged_in_customer");
-  if(c.getFirstName()==null){
-	  loggedIn = false;
-  }
-  
-  %>
-  
-  
-
     <!-- Start Top Bar -->
     <div class="top-bar">
       <div class="top-bar-left">
         <ul class="menu">
           <li class="menu-text" style="color:red">Online Shopping</li>
-          <li><a href="/">Home</a></li>
+          <li><a href="/index">Home</a></li>
           
         </ul>
       </div>
@@ -62,24 +40,38 @@
       </div>
     </div>
     <!-- End Top Bar -->
-    <%
-    if(loggedIn){
-    %>
-    <h3>You have logged in as <%=c.getFirstName()%></h3>   <!-- IF LOGGED IN PUT LAYOUT HERE -->
-    <%}%>
-	
+<%
+    try{
+//Class.forName("com.mysql.jdbc.Driver").newInstance();
+Connection connection = 
+         DriverManager.getConnection
+            ("jdbc:mysql://localhost/elsevier?user=root&password=");
+       Statement statement = connection.createStatement() ;
+       resultset =statement.executeQuery("SELECT DISTINCT genre FROM book;") ;
+       System.out.println(resultset);
+%>
 
- <form action="/search_results" method="get"> 
-              
-               <label>book search< /label>
-                <input type="text" placeholder="Enter Title/Author" name="searchTerm" id="searchTerm"/> 
-          
-            	<input type="submit" class="button expanded" value="plz work">
-              
-              </form>
+ <div class="row column text-center">
+    <form action="/filter_results" method="get">
+     <!--  <input type="text" placeholder="Enter book title" name="searchTerm" id="searchTerm"> -->
+        <%  while(resultset.next()){ %>
+                    <input type="checkbox" name="genre" value="<%=resultset.getString(1)%>"> <%=resultset.getString(1)%><br>
+                <% } %>
+                
+        <input type="submit">
+    </form>
+    </div>
+         <%
+//**Should I input the codes here?**
+        }
+        catch(Exception e)
+        {
+             out.println("wrong entry"+e);
+        }
+%>
     
     <div class="row column text-center">
-      <h2>Our Newest Books
+      <h2>Search Results
       
       
       <%
@@ -91,7 +83,6 @@
       </h2>
       <hr>
     </div>
-
     <div class="row small-up-2 large-up-4">
     
     <%
@@ -99,50 +90,22 @@
     for(Book book: books)
     {
       
-    	
-    	
    
     %>
       <div class="column">
       
         <a href="/bookDetails?bookId=<%=book.getBookId()%>"><img class="thumbnail" src="<%=book.getBookImage()%>"></a>
-       
-        <h3><%= book.getTitle()%></h3>
-                <h5>
-        	<% for(Author author : book.getAuthors()) {%>
-        		<%= author %>
-        	<% } %>
-        </h5>
-        <p>£<%= book.getPrice()%></p>
-        <% if(book.geteBookISBN() !=null)
-          {
-        	  %>
-            eBook Available
-            
-            <%
-          }
-            %>
-          </div>
-          <div class="column">
-          
-          <%if(book.getPaperISBN() !=null)
-        	  {
-        	  %>
-            Paperbook Available
-            <%
-            }
-            %>
+        <h5><%= book.getTitle()%></h5>
+        <p>$<%= book.getPrice()%></p>
         <a href="/bookDetails?bookId=<%=book.getBookId()%>" class="button expanded">View book details</a>
-        <a href="/addToCart?bookId=" class="button expanded">Add to Cart</a>
+        <!--  a href="/addToCart?bookId=" class="button expanded">Add to Cart</a>-->
       </div>
     
     <%
     }
     %>  
     </div>
-
     <hr>
-
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="js/elsevier.js"></script>
     <script>

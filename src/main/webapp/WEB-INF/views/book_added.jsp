@@ -13,7 +13,7 @@
       <div class="top-bar-left">
         <ul class="menu">
           <li class="menu-text" style="color:red">Online Shopping</li>
-          <li><a href="/">Home</a></li>
+          <li><a href="#">Home</a></li>
           
         </ul>
       </div>
@@ -38,9 +38,8 @@
 
     <div class="callout large">
       <div class="row column text-center">
-        <h1> Registration failed </h1>
+        <h1>Book add Success </h1>
         
-        <a href="/register" class="button large"> Click here to try again </a>
       
       </div>
     </div>

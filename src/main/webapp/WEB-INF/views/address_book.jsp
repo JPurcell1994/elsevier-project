@@ -25,7 +25,7 @@
       <div class="top-bar-left">
         <ul class="menu">
           <li class="menu-text" style="color:red">Online Shopping</li>
-          <li><a href="#">Home</a></li>
+          <li><a href="/">Home</a></li>
           
         </ul>
       </div>
@@ -36,7 +36,6 @@
             
             <li><a href="/profile">Personal Details</a></li>
             <li><a href="#">Address Book</a></li>
-            <li><a href="#">Change Password </a></li>
             <li><a href="#">Order History </a></li>
              <li><a href="/logout">Logout</a></li>
             <li class="has-submenu">

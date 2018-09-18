@@ -41,7 +41,7 @@
       <div class="top-bar-left">
         <ul class="menu">
           <li class="menu-text" style="color:red">Online Shopping</li>
-          <li><a href="#">Home</a></li>
+          <li><a href="/">Home</a></li>
           
         </ul>
       </div>
@@ -112,7 +112,7 @@
         </div>
       </div>
       <div class="medium-6 large-5 columns">
-      <h1><%=book.getAuthorNameByIndex(0) %></h1>
+  <h1><%=book.getAuthorNameByIndex(0) %></h1>
         <h3><%=book.getTitle() %></h3>
         <p><%=book.getDescription() %></p>
 
@@ -138,7 +138,7 @@
 
         <a href="/addToCart?bookId=<%=book.getBookId()%>" class="button large expanded">Add to Cart</a>
 
-  <div class="small secondary expanded button-group">
+ <!--  <!-- <div class="small secondary expanded button-group">
             <a class="button">Facebook</a>
             <a class="button">Twitter</a>
             <a class="button">MySpace</a>
@@ -225,13 +225,13 @@
               <h5>Other Product <small>$22</small></h5>
               <p>In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper, magna diam.</p>
               <a href="#" class="button hollow tiny expanded">Buy Now</a>
-            </div>
+            </div> -->
             
-            <!-----
+ 
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
      
     <div class="row column">
       <hr>

@@ -2,18 +2,26 @@ package com.qa.models;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.ElementCollection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.servlet.jsp.tagext.Tag;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-@Entity
+@Entity(name ="Book")
+@Table(name ="book")
 public class Book {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int bookId;
 	
 	private String title;
@@ -30,15 +38,28 @@ public class Book {
 	
 	private int pageCount;
 	
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
+
 	public List<Author> getAuthors() {
 		return authors;
 		
 	}
-
-	@Autowired
-	@ElementCollection
-	private List<Author> authors;
 	
+	
+
+//	@Autowired
+//	@ElementCollection
+//	private List<Author> authors;
+	
+//	@OneToMany(mappedBy="bookId",fetch=FetchType.EAGER)
+//	private List<Author> authors;
+//	
 	public void setAuthors(List<Author> authors) {
 		this.authors = authors;
 	}
@@ -90,11 +111,11 @@ public class Book {
 		this.publisher = publisher;
 	}
 	
-	public String getGenre() {
+	public String getGenre1() {
 		return genre;
 	}
 	
-	public void setGenre(String genre) {
+	public void setGenre1(String genre) {
 		this.genre = genre;
 	}
 
@@ -164,6 +185,42 @@ public class Book {
 		this.bookImage = bookImage;
 	}
 	
-	
+	@ManyToMany(cascade = 
+        {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "book_author",
+        joinColumns = {
+            @JoinColumn(
+                name = "book_id", 
+                referencedColumnName = "bookId"
+            )
+        },
+        inverseJoinColumns = {
+            @JoinColumn(
+                name = "author_id", 
+                referencedColumnName = "authorId"
+            )
+        }
+    )
+
+
+	    private List<Author> authors = new ArrayList<>();
+	 
+	    //Getters and setters ommitted for brevity
+	 
+	    public void addAuthor(Author a) {
+	    	authors.add(a);
+	        a.getBooks().add(this);
+	    }
+	 
+	    public void removeAuthor(Author a) {
+	    	authors.remove(a);
+	        a.getBooks().remove(this);
+	        
+	    
+	    }
+	    
+	    public Author getAuthor() {
+	    	return authors.get(0);
+	    }
 	
 }

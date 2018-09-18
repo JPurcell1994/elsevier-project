@@ -27,7 +27,10 @@
       <div class="top-bar-left">
         <ul class="menu">
           <li class="menu-text" style="color:red">Online Shopping</li>
-          <li><a href="/profile.jsp">Home</a></li>
+
+
+          <li><a href="/">Home</a></li>
+
           
         </ul>
       </div>
@@ -38,7 +41,6 @@
             
             <li><a href="/profile">Personal Details</a></li>
             <li><a href="/addressBook">Address Book</a></li>
-            <li><a href="#">Change Password </a></li>
             <li><a href="#">Order History </a></li>
              <li><a href="/logout">Logout</a></li>
             <li class="has-submenu">
@@ -75,6 +77,8 @@
                <input type="text" placeholder="Enter lastname" name="lastName" id="lastName" value="<%=c.getLastName()%>"/> 
                <label>Email ID * </label>
                 <input type="text" placeholder="Enter email" name="email" id="email" value="<%=c.getEmail()%>"/> 
+                <label>Password * </label>
+				 <input type="password" placeholder="Enter new password" name="password" id="password"/>
                 
             </div>
             

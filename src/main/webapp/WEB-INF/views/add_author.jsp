@@ -13,7 +13,7 @@
       <div class="top-bar-left">
         <ul class="menu">
           <li class="menu-text" style="color:red">Online Shopping</li>
-          <li><a href="/">Home</a></li>
+          <li><a href="#">Home</a></li>
           
         </ul>
       </div>
@@ -35,12 +35,32 @@
       </div>
     </div>
     <!-- End Top Bar -->
-
     <div class="callout large">
-      <div class="row column text-center">
-        <h1> Registration failed </h1>
+      <div class="row column">
         
-        <a href="/register" class="button large"> Click here to try again </a>
+        <form action="/addAuthorProcess" method="get">
+        <div class="medium-6">
+           <h3> Add an author  </h3>
+                
+                
+               <label>Name * </label>
+               <input type="text" placeholder="Enter author's name" name="authorName" id="authorName"/> 
+               <label>About author * </label>
+               <input type="text"  placeholder="About author "name="aboutAuthor" id="aboutAuthor"/> 
+               <label>Affiliations * </label>
+                <input type="text" placeholder="Affiliations" name="affiliations" id="affiliations"/> 
+                <label>Expertise * </label>
+                 <input type="text" placeholder="Expertise" name="expertise" id="expertise"/>
+                
+            </div>
+            
+            
+            
+            <input type="submit" class="button create account" value="Add Author">
+              
+              </form>
+    
+      
       
       </div>
     </div>
@@ -53,6 +73,3 @@
     </script>
   </body>
 </html>
-
-
-    
