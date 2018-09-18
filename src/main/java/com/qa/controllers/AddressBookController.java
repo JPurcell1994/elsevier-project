@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.qa.models.Address;
 import com.qa.models.Customer;
 import com.qa.services.AddressService;
-
+@SessionAttributes(names={"logged_in_customer"})
 @Controller
 public class AddressBookController {
 
@@ -38,6 +39,13 @@ public class AddressBookController {
 		
 		if(bAddress!=null || sAddress!=null)
 		{
+			if(sAddress==null && address.getAddressType().equals("shipping")) {
+				address.setCustomerId(loggedInCustomer.getCustomerId());
+					Address savedAddress = addressService.saveAddress(address);
+					modelAndView = new ModelAndView("address_book","shipping_address",savedAddress);
+			}else {
+				
+			
 		
 		        int recordsUpdated = addressService.updateBillingAddress(address.getAddressLine1(),
 				address.getAddressLine2(), 
@@ -49,30 +57,52 @@ public class AddressBookController {
 				loggedInCustomer.getCustomerId(), 
 				address.getAddressType());
 		
-		if(recordsUpdated>0)
-		{
-			billingAddress  = addressService.findAddressByType(loggedInCustomer.getCustomerId(),"billing");
-			shippingAddress  = addressService.findAddressByType(loggedInCustomer.getCustomerId(),"shipping");
-			
-			System.out.println("After update ");
-			modelAndView = new ModelAndView("address_book","billing_address",billingAddress);
-			modelAndView.addObject("shipping_address", shippingAddress);
+				if(recordsUpdated>0)
+				{
+					System.out.println("recordsUpdated greater than 0");
+					billingAddress  = addressService.findAddressByType(loggedInCustomer.getCustomerId(),"billing");
+					shippingAddress  = addressService.findAddressByType(loggedInCustomer.getCustomerId(),"shipping");
+					
+					System.out.println("After update 1");
+					modelAndView = new ModelAndView("address_book","billing_address",billingAddress);
+					System.out.println("After update 2");
+					modelAndView.addObject("shipping_address", shippingAddress);
+					System.out.println("After update 3");
+					
+				}
+				else
+				{
+					System.out.println("recordsUpdated not greater than 0");
+					modelAndView = new ModelAndView("address_book","billing_address",billingAddress);
+					modelAndView.addObject("shipping_address", shippingAddress);
+					
+				}
+			}
 		}
 		else
 		{
-			modelAndView = new ModelAndView("address_book","billing_address",billingAddress);
-			modelAndView.addObject("shipping_address", shippingAddress);
-			
-		}
-		
-		}
-		else
-		{
+			address.setCustomerId(loggedInCustomer.getCustomerId());
+		//	address.setAddressType(address.getAddressType());
 			Address savedAddress = addressService.saveAddress(address);
 			modelAndView = new ModelAndView("address_book","billing_address",savedAddress);
 			
 		}
+		
+		//System.out.println(loggedInCustomer.getCustomerId()));
 		return modelAndView;
 	}
+	
+	
+	@RequestMapping("/pullAddress")
+	public void loadAddress() {
+		
+		System.out.println("Check 1");
+	}
+	
+	
+
+
+
+	
 	
 }

@@ -1,5 +1,6 @@
 <!doctype html>
 <%@page import="com.qa.models.Customer"%>
+<%@page import="com.qa.models.Address"%>
 <html class="no-js" lang="en">
   <head>
     <meta charset="utf-8" />
@@ -10,14 +11,17 @@
   <body>
   
   <%!
-  
-  Customer c;
+ Customer c;
+ Address bAddress;
+ Address sAddress;
   
   %>
   
   
   <%
- 		c = (Customer) session.getAttribute("logged_in_customer");
+ c = (Customer) session.getAttribute("logged_in_customer");
+  bAddress = (Address) session.getAttribute("billing_address");
+  sAddress = (Address) session.getAttribute("shipping_address");
   %>
     
     <!-- Start Top Bar -->
@@ -58,6 +62,7 @@
        
         <div class="large-6 columns">
            <h3> Billing Address </h3>
+ 
                 
               <form action="/updateAddress" method="post">
                <label>Address Line1 * </label>

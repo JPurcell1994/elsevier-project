@@ -2,8 +2,8 @@ package com.qa.controllers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.qa.models.Author;
 import com.qa.models.Book;
 import com.qa.models.Customer;
 import com.qa.repositories.AuthorRepository;
@@ -60,6 +59,9 @@ public class BookController {
 	
 	//	Iterator<Book> total = new IteratorIterator<Book>(books,filter_results);
 		ModelAndView modelAndView = new ModelAndView("search_results","books",filter_results);
+		
+		
+		
 
 		//bookscurent = book session
 		// bookcurrent = bookcurren t+ fitler_resultd
