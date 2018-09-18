@@ -1,5 +1,6 @@
 <!doctype html>
 <%@page import="java.util.Map"%>
+<%@page import="com.qa.models.Customer"%>
 <%@page import="java.util.Set"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.ArrayList"%>
@@ -14,10 +15,15 @@
     
   </head>
   <body>
+  
+ 
     
     <%!
     
       ArrayList<Book> books;
+    
+  	  Customer c;
+  	  boolean loggedIn;
     
       Map<Integer,Integer> bookCounts;
     
@@ -27,9 +33,10 @@
     
     <%
     
-
+    c = (Customer) session.getAttribute("logged_in_customer");
     
     books  = (ArrayList<Book>) session.getAttribute("filtered_books");
+    
     
     bookCounts = (Map<Integer,Integer>)  session.getAttribute("book_counts");
     
@@ -38,6 +45,12 @@
     double orderTotal = 0.0;
     
     double totalPrice =  0.0;
+    
+    loggedIn = true; 
+    c = (Customer) session.getAttribute("logged_in_customer");
+    if(c.getFirstName()==null){
+  	  loggedIn = false;
+    }
     %>
     
    
@@ -193,14 +206,16 @@
       
         </div>
         
-        <%
+<%--         <%
             session.setAttribute("session_cart_total",cartTotal);
             session.setAttribute("session_checkout",true);
-        %>
-
-		<form action="/login" method="post" id="checkout_form">   
-		<%-- <input type="hidden" name="order_total" value="<%=cartTotal %>"/>
-		 --%> 
+        %> --%>
+		<%if(loggedIn){%>
+		<form action="/checkout" method="post" id="checkout_form">  
+		<%}else{%>
+		<form action="/login" method="post" id="checkout_form">  
+		<%}%>
+		<input type="hidden" name="order_total" value="<%=cartTotal %>"/>
         <input type="submit" class="button large expanded" value="Proceed to Checkout"/>
         </form> 
       </div>  

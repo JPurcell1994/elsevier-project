@@ -104,7 +104,7 @@ public class BookController {
 	
 	
 	@RequestMapping("/viewCart")
-	public ModelAndView viewCart(@ModelAttribute("books") Iterable<Book> books,@ModelAttribute("cart_items") ArrayList<Book> cartItems)
+	public ModelAndView viewCart(@ModelAttribute("logged_in_customer") Customer loggedInCustomer, @ModelAttribute("books") Iterable<Book> books,@ModelAttribute("cart_items") ArrayList<Book> cartItems)
 	{
 		
 		ModelAndView modelAndView = null;
@@ -123,6 +123,7 @@ public class BookController {
 			modelAndView = new ModelAndView("cart_details","cart_items",cartItems);
 			modelAndView.addObject("book_counts", bookCounts);
 			modelAndView.addObject("filtered_books", filteredBooks);
+			modelAndView.addObject("logged_in_customer", loggedInCustomer);
 			
 		}
 		else
@@ -130,6 +131,7 @@ public class BookController {
 			modelAndView = new ModelAndView("cart_empty","cart_items",cartItems);
 			modelAndView.addObject("book_counts", bookCounts);
 			modelAndView.addObject("filtered_books", filteredBooks);
+			modelAndView.addObject("logged_in_customer", loggedInCustomer);
 		}
 		
 		return modelAndView;

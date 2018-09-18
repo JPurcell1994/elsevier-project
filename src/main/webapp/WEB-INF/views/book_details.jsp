@@ -1,9 +1,22 @@
 <%@ include file="header.jsp" %>
 
 <%@page import="com.qa.models.Book"%>
-
-
-    
+       
+       <%
+   Customer c;
+  boolean loggedIn;
+  
+  %>
+   
+  
+  <%
+  loggedIn = true; 
+  c = (Customer) session.getAttribute("logged_in_customer");
+  if(c.getFirstName()==null){
+	  loggedIn = false;
+  }
+  
+  %>
     <%!
     
       Book book;

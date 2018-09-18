@@ -1,5 +1,5 @@
 
-<%@ include file="header.jsp" %>
+
 
 <%@page import="com.qa.models.Customer"%>
 <%@page import="java.util.Iterator"%>
@@ -8,13 +8,16 @@
 <%@page import="com.qa.models.Book"%>
 <%@page import="com.qa.models.Author"%>
 
-       <%!
+<%@include file="header.jsp" %>
+
+   <%!
+
   
- Customer c;
+   Customer c;
   boolean loggedIn;
   
   %>
-  
+   
   
   <%
   loggedIn = true; 
@@ -32,6 +35,16 @@
 					<div class="left-sidebar">
 						<h2>Genre</h2>
 						<div class="panel-group category-products" id="accordian"><!--category-products-->
+						
+						     <form action="/search_results" method="get"> 
+              
+               <label>Book search</label>
+                <input type="text" placeholder="Enter Title/Author" name="searchTerm" id="searchTerm" style=""/> 
+          
+            	<input type="submit" class="btn btn-default" value="Search">
+              
+              </form>
+              
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h4 class="panel-title"><a href="#">Business</a></h4>
@@ -137,16 +150,9 @@
     <%}%>
     
     
-     <form action="/search_results" method="get"> 
-              
-               <label>Book search</label>
-                <input type="text" placeholder="Enter Title/Author" name="searchTerm" id="searchTerm"/> 
-          
-            	<input type="submit" class="btn btn-default" value="Search">
-              
-              </form>
     
     
+
 					<div class="features_items"><!--features_items-->
 						<h2 class="title text-center">Our Newest Books</h2>
 
