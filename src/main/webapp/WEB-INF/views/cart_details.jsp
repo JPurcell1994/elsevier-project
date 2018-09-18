@@ -123,6 +123,8 @@
     	  cartTotal = cartTotal + book.getPrice()*quantity;
     	  System.out.println("Cart Total "+cartTotal);
     	  
+    	  session.setAttribute("order_total",cartTotal);
+    	  
       %>
        
         <img class="thumbnail" src="<%=book.getBookImage()%>"/>
