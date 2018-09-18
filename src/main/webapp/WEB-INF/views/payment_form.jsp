@@ -16,14 +16,7 @@
   <body>
     
     <form action="/paymentComplete" method="post">
-    
-    
-    <%
-    
-    double orderTotal = (Double) request.getAttribute("order_total");
-    
-   
-    %>
+  
     
    
 

@@ -21,7 +21,6 @@
     
     double orderTotal = (Double) request.getAttribute("order_total");
     
-   
     %>
     
    
@@ -202,12 +201,9 @@
            </div>
       
         </div>
-
-		<form action="checkoutProcess" id="checkout_form">
 		
         <input type="submit" class="button large expanded" value="Checkout"/>
-       </form>
-      </div> 
+       </form> 
       
       
       <br>
@@ -253,9 +249,9 @@
 		<%-- <input type="hidden" name="order_total" value="<%=orderTotal %>"/>   
         <input type="submit" class="button large expanded" value="Checkout"/> --%>
        
-      </div>  
+      
    
- </div>
+
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="js/elsevier.js"></script>
     <script src="js/update_cart.js"></script>
@@ -265,7 +261,7 @@
       $(document).foundation();
     </script> 
     
-   </form>
+ 
   </body>
 </html>
 
