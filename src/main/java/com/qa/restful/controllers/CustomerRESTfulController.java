@@ -29,6 +29,7 @@ public class CustomerRESTfulController {
 	@Autowired
 	CustomerService customerService;
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/loadAllBooks")
 	public Iterable<Book> indexPage(HttpServletRequest request)
 	{
@@ -48,7 +49,7 @@ public class CustomerRESTfulController {
 		}
 		
 	
-		Iterable<Book> books = bookService.findAllBooks();
+		Iterable<Book> books = bookService.loadAllBooks();
 		
 		ModelAndView modelAndView = new ModelAndView("index","books",books);
 		

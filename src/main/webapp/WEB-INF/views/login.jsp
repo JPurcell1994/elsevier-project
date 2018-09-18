@@ -7,13 +7,17 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
+  
+    <%
+ 		Boolean failure = (Boolean) request.getAttribute("failure");
+  	%>
     
     <!-- Start Top Bar -->
     <div class="top-bar">
       <div class="top-bar-left">
         <ul class="menu">
           <li class="menu-text" style="color:red">Online Shopping</li>
-          <li><a href="#">Home</a></li>
+          <li><a href="/">Home</a></li>
           
         </ul>
       </div>
@@ -42,6 +46,12 @@
         
         <div class="medium-6">
            <h3> Please login using your stored credentials  </h3>
+           
+           <%
+           	if(failure != null) {
+           		%> <h4>Invalid credentials</h4> <%
+           	}
+           %>
                 
                <form action="loginProcess" method="post"> 
               

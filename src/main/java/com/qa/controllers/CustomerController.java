@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.qa.models.Author;
 import com.qa.models.Book;
 import com.qa.models.Customer;
+import com.qa.services.AuthorService;
 import com.qa.services.BookService;
 import com.qa.services.CustomerService;
 
@@ -25,10 +28,24 @@ public class CustomerController {
 
 	@Autowired
 	BookService bookService;
+	@Autowired
+	AuthorService authorService;
 	
 	@Autowired
 	CustomerService customerService;
 	
+	
+	
+	@ModelAttribute
+	public Customer c()
+	{
+		
+		return new Customer();
+	}
+	
+	
+	
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/")
 	public ModelAndView indexPage(HttpServletRequest request)
 	{
@@ -36,6 +53,12 @@ public class CustomerController {
 		ArrayList<Book> cartItems = null;
 		
 		HttpSession session = request.getSession();
+		if(session.getAttribute("logged_in_customer")==null)
+		  session.setAttribute("logged_in_customer", new Customer());
+		
+		if(session.getAttribute("logged_in_customer") != null) {
+			return new ModelAndView("customer_home");
+		}
 		
 		Object items = session.getAttribute("cart_items");
 		
@@ -48,7 +71,7 @@ public class CustomerController {
 		}
 		
 	
-		Iterable<Book> books = bookService.findAllBooks();
+		Iterable<Book> books = bookService.loadAllBooks();
 		
 		ModelAndView modelAndView = new ModelAndView("index","books",books);
 		
@@ -56,6 +79,59 @@ public class CustomerController {
 		return modelAndView;
 		
 	}
+	
+	@RequestMapping("/addAuthorProcess")
+	public ModelAndView addAuthorProcess(@ModelAttribute("Author") Author author)
+	{
+		
+		ModelAndView modelAndView = null;
+		
+		Author a = authorService.saveAuthor(author);
+		
+		
+		
+		if(a!= null)
+		{
+		
+			modelAndView = new ModelAndView("author_added");
+			
+		}
+		else
+		{
+			modelAndView = new ModelAndView("author_failed");
+		}
+		return modelAndView;
+	}
+	
+	@RequestMapping("/addBookProcess")
+	public ModelAndView addBookProcess(@ModelAttribute("Book") Book book, @RequestParam("authorId") int authorId)
+	{
+		
+		ModelAndView modelAndView = null;
+		
+		Author a = authorService.findAuthorById(authorId);
+		
+		book.addAuthor(a);
+		
+		Book b = bookService.saveBook(book);
+		
+		
+		
+		
+		
+		if(b!= null)
+		{
+		
+			modelAndView = new ModelAndView("book_added");
+			
+		}
+		else
+		{
+			modelAndView = new ModelAndView("book_failed");
+		}
+		return modelAndView;
+	}
+	
 
 	@RequestMapping("/login")
 	public String login()
@@ -72,6 +148,21 @@ public class CustomerController {
 	    return modelAndView;
 	}
 	
+	@RequestMapping("/add_author")
+	public ModelAndView addAuthor()
+	{
+		ModelAndView modelAndView = new ModelAndView("add_author");
+	
+	    return modelAndView;
+	}
+	
+	@RequestMapping("/add_book")
+	public ModelAndView addBook()
+	{
+		ModelAndView modelAndView = new ModelAndView("add_book");
+	
+	    return modelAndView;
+	}
 	
 	
 
@@ -81,10 +172,10 @@ public class CustomerController {
 		
 		ModelAndView modelAndView  = null;
 		
-		System.out.println("Customer Firstname is "+customer.getFirstName());
+		//System.out.println("Customer Firstname is "+customer.getFirstName());
 		
 		
-		System.out.println("Customer Password is "+customer.getPassword());
+		//System.out.println("Customer Password is "+customer.getPassword());
 		
 		Customer c = customerService.saveCustomer(customer);
 	  
@@ -109,10 +200,9 @@ public class CustomerController {
 		
 		HttpSession session = request.getSession();
 		
-		System.out.println("Email is "+email);
+		//System.out.println("Email is "+email);
 		
-		
-		System.out.println("Password is "+password);
+		//System.out.println("Password is "+password);
 		
 		
 		Customer c = customerService.loginProcess(email, password);
@@ -120,18 +210,17 @@ public class CustomerController {
 		if(c!=null)
 		{
 			System.out.println("Success");
+
 			if(session.getAttribute("session_checkout") != null) {
 				modelAndView = new ModelAndView("checkout","logged_in_customer",c);
 				
 			}else {
-	  		modelAndView = new ModelAndView("customer_home","logged_in_customer",c);
+				modelAndView = new ModelAndView("index","logged_in_customer",c);
 	  		}
-			
 		}
-		else
-		{
+		else {
 			System.out.println("Failure");
-			modelAndView = new ModelAndView("login_failed");
+			modelAndView = new ModelAndView("login", "failure", true);
 		}
 		
 		session.removeAttribute("session_checkout");
@@ -158,39 +247,39 @@ public class CustomerController {
 		
 		ModelAndView modelAndView  = null;
 		
-		System.out.println("Before update ");
-
-		System.out.println("ID "+loggedInCustomer.getCustomerId());
-		System.out.println("Name"+loggedInCustomer.getFirstName());
-		System.out.println("Email"+loggedInCustomer.getEmail());
+//		System.out.println("Before update ");
+//
+//		System.out.println("ID "+loggedInCustomer.getCustomerId());
+//		System.out.println("Name"+loggedInCustomer.getFirstName());
+//		System.out.println("Email"+loggedInCustomer.getEmail());
 		
 		
 		int recordsUpdated = customerService.updateCustomer(loggedInCustomer.getFirstName(),
 				loggedInCustomer.getLastName(),
 				loggedInCustomer.getEmail(), 
-				loggedInCustomer.getCustomerId());
+				loggedInCustomer.getCustomerId(),
+				loggedInCustomer.getPassword());
 		
 		if(recordsUpdated>0)
 		{
 			Customer c  = customerService.findCustomerById(loggedInCustomer.getCustomerId());
 		
-			
 			//Customer c = null;
-			System.out.println("After update ");
-			
+
 //			if(opt.isPresent())
 //				c = opt.get();
   
-			System.out.println("ID "+c.getCustomerId());
-			System.out.println("Name"+c.getFirstName());
-			System.out.println("Email"+c.getEmail());
+//			System.out.println("After update ");
+//
+//			System.out.println("ID "+c.getCustomerId());
+//			System.out.println("Name"+c.getFirstName());
+//			System.out.println("Email"+c.getEmail());
 			
-			
-			modelAndView = new ModelAndView("profile","logged_in_customer",c);
+			modelAndView = new ModelAndView("index","logged_in_customer",c);
 		}
 		else
 		{
-			modelAndView = new ModelAndView("profile","logged_in_customer",loggedInCustomer);
+			modelAndView = new ModelAndView("index","logged_in_customer",loggedInCustomer);
 		}
 		
 		return modelAndView;
@@ -207,6 +296,12 @@ public class CustomerController {
 	}
 	
 	
-	
+	@RequestMapping("/logout")
+	public String logout(SessionStatus sessionStatus)
+	{
+		sessionStatus.setComplete();
+		
+	    return "redirect:/";
+	}
 	
 }

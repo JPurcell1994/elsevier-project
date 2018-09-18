@@ -13,27 +13,72 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.qa.models.Author;
 import com.qa.models.Book;
+import com.qa.models.Customer;
+import com.qa.repositories.AuthorRepository;
 import com.qa.repositories.BookRepository;
 
 @Controller
-@SessionAttributes(names={"books","cart_items","book_counts","filtered_books"})
+@SessionAttributes(names={"books","cart_items","book_counts","filtered_books","logged_in_customer"})
 public class BookController {
 
 	@Autowired
 	BookRepository bookService;
+	AuthorRepository authorService;
 	
 	@RequestMapping("/bookDetails")
-	public ModelAndView bookDetails(@ModelAttribute("books") Iterable<Book> books,@RequestParam("bookId") int bookId)
+	public ModelAndView bookDetails(@ModelAttribute("logged_in_customer") Customer loggedInCustomer, @ModelAttribute("books") Iterable<Book> books,@RequestParam("bookId") int bookId)
 	{
 		Book book = findBookById(books, bookId);
 		
+		
 		ModelAndView modelAndView = new ModelAndView("book_details","book",book);
 		modelAndView.addObject("books", books);
+		
+		modelAndView.addObject("logged_in_customer", loggedInCustomer);
 		return modelAndView;
 		
 	}
 	
+//	@RequestMapping("/filter_results")
+//	public ModelAndView searchBookGenres(@RequestParam("searchTerm") String searchTerm){
+//		ModelAndView modelAndView = null;
+//		Iterable<Book> search_results = bookService.findBookByGenre(searchTerm);
+//		System.out.println(search_results);
+//		modelAndView = new ModelAndView("search_results", "books", search_results);
+//		return modelAndView;
+	
+	
+//	}
+	
+	@RequestMapping("/filter_results")
+	public ModelAndView filterResults(@RequestParam("genre") String[] genre)
+	{
+		//ModelAndView modelAndView = null;
+		Iterable<Book> filter_results = bookService.findBookByGenre(genre);
+	
+	//	Iterator<Book> total = new IteratorIterator<Book>(books,filter_results);
+		ModelAndView modelAndView = new ModelAndView("search_results","books",filter_results);
+
+		//bookscurent = book session
+		// bookcurrent = bookcurren t+ fitler_resultd
+		
+	//	cartItems.add(book);
+		
+		//modelAndView.addObject("books", filter_results);
+		return modelAndView;
+		
+	}
+	
+	@RequestMapping("/search_results")
+	public ModelAndView searchBook(@RequestParam("searchTerm") String searchTerm){
+		ModelAndView modelAndView = null;
+		Iterable<Book> search_results = bookService.findBookByTerm(searchTerm);
+		System.out.println(search_results);
+		modelAndView = new ModelAndView("search_results", "books", search_results);
+		return modelAndView;
+	}
 	
 	@RequestMapping("/addToCart")
 	public ModelAndView addToCart(@ModelAttribute("books") Iterable<Book> books,
@@ -52,6 +97,11 @@ public class BookController {
 		return modelAndView;
 		
 	}
+	
+
+
+	
+	
 	
 	@RequestMapping("/viewCart")
 	public ModelAndView viewCart(@ModelAttribute("books") Iterable<Book> books,@ModelAttribute("cart_items") ArrayList<Book> cartItems)
