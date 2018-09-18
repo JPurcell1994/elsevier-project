@@ -19,7 +19,7 @@
     
      <%
     
-    double orderTotal = (Double) request.getAttribute("order_total");
+    double orderTotal = (Double) session.getAttribute("session_cart_total");
     
    
     %>
@@ -165,7 +165,7 @@
       
       </div> -->
       
-           <h3>Already have an account </h3>
+           <%-- <h3>Already have an account </h3>
         <p> Please login using saved details</p>
 
         <div class="row">
@@ -180,7 +180,7 @@
              <a href="/loginThroughCheckout?order_total=<%=orderTotal%>" class="button large expanded">Login</a>
           </div>
            
-       </div>
+       </div> --%>
 
           <div class="row">
           <div class="small-3 columns">
@@ -204,7 +204,7 @@
         </div>
 
 		<form action="checkoutProcess" id="checkout_form">
-		<input type="hidden" name="order_total" value="<%=orderTotal %>"/>   
+		
         <input type="submit" class="button large expanded" value="Checkout"/>
        </form>
       </div> 

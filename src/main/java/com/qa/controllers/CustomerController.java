@@ -1,6 +1,7 @@
 package com.qa.controllers;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,7 +23,7 @@ import com.qa.services.BookService;
 import com.qa.services.CustomerService;
 
 @Controller
-@SessionAttributes(names={"books","cart_items","logged_in_customer","Address"})
+@SessionAttributes(names={"books","cart_items","logged_in_customer","Address","sesssion_cart_total","session_checkout"})
 public class CustomerController {
 
 	@Autowired
@@ -120,11 +121,9 @@ public class CustomerController {
 	
 
 	@RequestMapping("/login")
-	public ModelAndView login()
+	public String login()
 	{
-		ModelAndView modelAndView = new ModelAndView("login");
-	
-	    return modelAndView;
+		return "login";
 	}
 	
 	
@@ -180,14 +179,15 @@ public class CustomerController {
 	}
 	
 	@RequestMapping("/loginProcess")
-	public ModelAndView loginProcess(@RequestParam("email") String email,
+	public ModelAndView loginProcess(HttpServletRequest request, @RequestParam("email") String email,
 										@RequestParam("password") String password)
 	{
 		
 		ModelAndView modelAndView  = null;
 		
-		//System.out.println("Email is "+email);
+		HttpSession session = request.getSession();
 		
+		//System.out.println("Email is "+email);
 		
 		//System.out.println("Password is "+password);
 		
@@ -197,13 +197,20 @@ public class CustomerController {
 		if(c!=null)
 		{
 			System.out.println("Success");
-	  		modelAndView = new ModelAndView("index","logged_in_customer",c);
+
+			if(session.getAttribute("session_checkout") != null) {
+				modelAndView = new ModelAndView("checkout","logged_in_customer",c);
+				
+			}else {
+				modelAndView = new ModelAndView("index","logged_in_customer",c);
+	  		}
 		}
-		else
-		{
+		else {
 			System.out.println("Failure");
 			modelAndView = new ModelAndView("login", "failure", true);
 		}
+		
+		session.removeAttribute("session_checkout");
 	  		
 		return modelAndView;
 	}
@@ -244,13 +251,16 @@ public class CustomerController {
 		{
 			Customer c  = customerService.findCustomerById(loggedInCustomer.getCustomerId());
 		
-			
+			//Customer c = null;
+
+//			if(opt.isPresent())
+//				c = opt.get();
+  
 //			System.out.println("After update ");
 //
 //			System.out.println("ID "+c.getCustomerId());
 //			System.out.println("Name"+c.getFirstName());
 //			System.out.println("Email"+c.getEmail());
-			
 			
 			modelAndView = new ModelAndView("index","logged_in_customer",c);
 		}
