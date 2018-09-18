@@ -22,9 +22,9 @@
   
   
   <%
-  loggedIn = true;
- 		c = (Customer) session.getAttribute("logged_in_customer");
- if(c.getFirstName()==null){
+  loggedIn = true; 
+  c = (Customer) session.getAttribute("logged_in_customer");
+  if(c.getFirstName()==null){
 	  loggedIn = false;
   }
   
