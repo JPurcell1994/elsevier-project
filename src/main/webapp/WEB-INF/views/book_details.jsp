@@ -4,7 +4,6 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Foundation | Welcome</title>
     <link rel="stylesheet" href="css/style.css">
     
     
@@ -32,7 +31,9 @@
     
     
     %>
-    
+
+     <title><%=book.getTitle() %></title>
+     
    
 
 <!-- Start Top Bar -->
@@ -81,13 +82,28 @@
         <img class="thumbnail" src="<%=book.getBookImage()%>"/>
         <div class="row small-up-4">
           <div class="column">
+          <% if(book.geteBookISBN() !=null)
+          {
+        	  %>
             eBook ISBN : <%=book.geteBookISBN()%>
+            
+            <%
+          }
+            %>
           </div>
           <div class="column">
-            Print book ISBN <%=book.getPaperISBN()%>
+          
+          <%if(book.getPaperISBN() !=null)
+        	  {
+        	  %>
+            Print book ISBN <%=book.getPaperISBN()
+            %>
+            <%
+            }
+            %>
           </div>
           <div class="column">
-           Price :       $<%=book.getPrice()%>
+           Price :       £<%=book.getPrice()%>
           </div>
           <div class="column">
             Published On <%=book.getPublishedDate()%>
@@ -96,15 +112,25 @@
         </div>
       </div>
       <div class="medium-6 large-5 columns">
+      <h1><%=book.getAuthorNameByIndex(0) %></h1>
         <h3><%=book.getTitle() %></h3>
         <p><%=book.getDescription() %></p>
 
         <label>Select the format
         <select>
-          <option value="">-- Select -- </option>
-          <option value="print">Paperback</option>
-          <option value="eBook">eBook</option>
-          <option value="printAndeBook">PrintBook & eBook</option>
+<!--           <option value="">-- Select -- </option> -->
+         <% if(book.getPaperISBN() !=null)
+		{%>
+		<option value = "Paperback">Paperback
+		<%
+		}%></option>
+		     <% if(book.geteBookISBN() !=null)
+		{%>
+		<option value = "eBook">eBook
+		<%
+		}%></option>
+      
+         <!--  <option value="printAndeBook">PrintBook & eBook</option> -->
         </select>
         </label>
 
@@ -112,14 +138,14 @@
 
         <a href="/addToCart?bookId=<%=book.getBookId()%>" class="button large expanded">Add to Cart</a>
 
-        <!-- <div class="small secondary expanded button-group">
+  <div class="small secondary expanded button-group">
             <a class="button">Facebook</a>
             <a class="button">Twitter</a>
-            <a class="button">Yo</a>
-          </div> -->
+            <a class="button">MySpace</a>
+          </div>
         </div>
     </div>
-<!--  
+ 
     <div class="column row">
       <hr>
       <ul class="tabs" data-tabs id="example-tabs">
@@ -157,11 +183,13 @@
             </div>
           </div>
           <label>
-            My Review
+          
+         My Review
             <textarea placeholder="None"></textarea>
           </label>
           <button class="button">Submit Review</button>
         </div>
+        
         <div class="tabs-panel" id="panel2">
           <div class="row medium-up-3 large-up-5">
             <div class="column">
@@ -170,6 +198,16 @@
               <p>In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper, magna diam.</p>
               <a href="#" class="button hollow tiny expanded">Buy Now</a>
             </div>
+            
+          
+            <div class="column">
+              <img class="thumbnail" src="http://placehold.it/350x200">
+              <h5>Other Product <small>$22</small></h5>
+              <p>In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper, magna diam.</p>
+              <a href="#" class="button hollow tiny expanded">Buy Now</a>
+            </div>
+            
+
             <div class="column">
               <img class="thumbnail" src="http://placehold.it/350x200">
               <h5>Other Product <small>$22</small></h5>
@@ -188,17 +226,13 @@
               <p>In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper, magna diam.</p>
               <a href="#" class="button hollow tiny expanded">Buy Now</a>
             </div>
-            <div class="column">
-              <img class="thumbnail" src="http://placehold.it/350x200">
-              <h5>Other Product <small>$22</small></h5>
-              <p>In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper, magna diam.</p>
-              <a href="#" class="button hollow tiny expanded">Buy Now</a>
-            </div>
+            
+            <!-----
           </div>
         </div>
       </div>
-    </div>
--->
+    </div> -->
+     
     <div class="row column">
       <hr>
       <ul class="menu">

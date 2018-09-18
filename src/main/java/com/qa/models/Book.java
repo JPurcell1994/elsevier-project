@@ -22,6 +22,8 @@ public class Book {
 	
 	private String publisher;
 	
+	private String genre;
+	
 	private String format;
 	
 	private String publishedDate;
@@ -30,6 +32,7 @@ public class Book {
 	
 	public List<Author> getAuthors() {
 		return authors;
+		
 	}
 
 	@Autowired
@@ -40,7 +43,7 @@ public class Book {
 		this.authors = authors;
 	}
 
-	private double price;
+	private float price;
 	
 	private String paperISBN;
 	
@@ -51,7 +54,9 @@ public class Book {
 	
 	private String bookImage;
 	
-
+	public String getAuthorNameByIndex(int i) {
+		return this.authors.get(i).getAuthorName();
+	}
 
 	public int getBookId() {
 		return bookId;
@@ -84,6 +89,14 @@ public class Book {
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
+	
+	public String getGenre() {
+		return genre;
+	}
+	
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
 
 	public String getFormat() {
 		return format;
@@ -111,11 +124,11 @@ public class Book {
 
 
 
-	public double getPrice() {
+	public float getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(float price) {
 		this.price = price;
 	}
 
