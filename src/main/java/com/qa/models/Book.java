@@ -38,6 +38,10 @@ public class Book {
 	
 	private String genre;
 	
+	public String getAuthorNameByIndex(int i) {
+        return this.authors.get(i).getAuthorName();
+    }
+	
 	public String getGenre() {
 		return genre;
 	}
