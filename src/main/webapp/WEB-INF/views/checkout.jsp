@@ -19,7 +19,7 @@
     
      <%
     
-    double orderTotal = (Double) session.getAttribute("session_cart_total");
+    double orderTotal = (Double) session.getAttribute("order_total");
     
     %>
     
