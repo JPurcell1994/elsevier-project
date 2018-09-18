@@ -16,7 +16,7 @@ import com.qa.models.Customer;
 import com.qa.models.Shipping;
 import com.qa.services.CustomerService;
 
-@SessionAttributes(names={"book_counts","logged_in_customer","checkout","session_cart_total"})
+@SessionAttributes(names={"book_counts","logged_in_customer","checkout","order_total"})
 @Controller
 public class CheckoutController {
 	
@@ -24,7 +24,7 @@ public class CheckoutController {
 	CustomerService customerService;
 
 	@RequestMapping("/checkoutProcess")
-	public ModelAndView checkoutProcess(@ModelAttribute("Shipping") Shipping shipping,@ModelAttribute("book_counts") Map<Integer,Integer> bookCounts,@ModelAttribute("session_cart_total") double orderTotal)
+	public ModelAndView checkoutProcess(@ModelAttribute("logged_in_customer") Customer loggedInCustomer, @ModelAttribute("Shipping") Shipping shipping,@ModelAttribute("book_counts") Map<Integer,Integer> bookCounts,@ModelAttribute("order_total") double orderTotal)
 	{
 		System.out.println("First name "+shipping.getFirstName());
 		ModelAndView modelAndView = new ModelAndView("payment_form","order_total",orderTotal);
