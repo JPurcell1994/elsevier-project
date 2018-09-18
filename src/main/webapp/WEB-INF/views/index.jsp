@@ -4,12 +4,15 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="com.qa.models.Book"%>
+<%@page import="com.qa.models.Author"%>
 <html class="no-js" lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Online Shopping</title>
     <link rel="stylesheet" href="css/style.css"/>
+    
+    
   </head>
   <body>
   
@@ -96,15 +99,41 @@
     for(Book book: books)
     {
       
+    	
+    	
    
     %>
       <div class="column">
       
         <a href="/bookDetails?bookId=<%=book.getBookId()%>"><img class="thumbnail" src="<%=book.getBookImage()%>"></a>
-        <h5><%= book.getTitle()%></h5>
-        <p>$<%= book.getPrice()%></p>
+       
+        <h3><%= book.getTitle()%></h3>
+                <h5>
+        	<% for(Author author : book.getAuthors()) {%>
+        		<%= author %>
+        	<% } %>
+        </h5>
+        <p>£<%= book.getPrice()%></p>
+        <% if(book.geteBookISBN() !=null)
+          {
+        	  %>
+            eBook Available
+            
+            <%
+          }
+            %>
+          </div>
+          <div class="column">
+          
+          <%if(book.getPaperISBN() !=null)
+        	  {
+        	  %>
+            Paperbook Available
+            <%
+            }
+            %>
         <a href="/bookDetails?bookId=<%=book.getBookId()%>" class="button expanded">View book details</a>
-        <!--  a href="/addToCart?bookId=" class="button expanded">Add to Cart</a>-->
+        <a href="/addToCart?bookId=" class="button expanded">Add to Cart</a>
       </div>
     
     <%

@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Online Shopping </title>
     <link rel="stylesheet" href="css/style.css">
+    
+    
   </head>
   <body>
   
@@ -25,7 +27,11 @@
       <div class="top-bar-left">
         <ul class="menu">
           <li class="menu-text" style="color:red">Online Shopping</li>
+
+
           <li><a href="/">Home</a></li>
+
+
           
         </ul>
       </div>
