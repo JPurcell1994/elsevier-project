@@ -53,13 +53,14 @@ public class BookController {
 //	}
 	
 	@RequestMapping("/filter_results")
-	public ModelAndView filterResults(@RequestParam("genre") String[] genre)
+	public ModelAndView filterResults(@ModelAttribute("logged_in_customer") Customer loggedInCustomer, @RequestParam("genre") String[] genre)
 	{
 		//ModelAndView modelAndView = null;
 		Iterable<Book> filter_results = bookService.findBookByGenre(genre);
 	
 	//	Iterator<Book> total = new IteratorIterator<Book>(books,filter_results);
 		ModelAndView modelAndView = new ModelAndView("search_results","books",filter_results);
+		modelAndView.addObject("logged_in_customer", loggedInCustomer);
 
 		//bookscurent = book session
 		// bookcurrent = bookcurren t+ fitler_resultd
@@ -72,16 +73,17 @@ public class BookController {
 	}
 	
 	@RequestMapping("/search_results")
-	public ModelAndView searchBook(@RequestParam("searchTerm") String searchTerm){
+	public ModelAndView searchBook(@ModelAttribute("logged_in_customer") Customer loggedInCustomer, @RequestParam("searchTerm") String searchTerm){
 		ModelAndView modelAndView = null;
 		Iterable<Book> search_results = bookService.findBookByTerm(searchTerm);
 		System.out.println(search_results);
 		modelAndView = new ModelAndView("search_results", "books", search_results);
+		modelAndView.addObject("logged_in_customer", loggedInCustomer);
 		return modelAndView;
 	}
 	
 	@RequestMapping("/addToCart")
-	public ModelAndView addToCart(@ModelAttribute("books") Iterable<Book> books,
+	public ModelAndView addToCart(@ModelAttribute("logged_in_customer") Customer loggedInCustomer, @ModelAttribute("books") Iterable<Book> books,
 			@RequestParam("bookId") int bookId,
 			@ModelAttribute("cart_items") ArrayList<Book> cartItems)
 	{
@@ -94,6 +96,7 @@ public class BookController {
 		cartItems.add(book);
 		
 		modelAndView.addObject("books", books);
+		modelAndView.addObject("logged_in_customer", loggedInCustomer);
 		return modelAndView;
 		
 	}
@@ -104,7 +107,7 @@ public class BookController {
 	
 	
 	@RequestMapping("/viewCart")
-	public ModelAndView viewCart(@ModelAttribute("books") Iterable<Book> books,@ModelAttribute("cart_items") ArrayList<Book> cartItems)
+	public ModelAndView viewCart(@ModelAttribute("logged_in_customer") Customer loggedInCustomer, @ModelAttribute("books") Iterable<Book> books,@ModelAttribute("cart_items") ArrayList<Book> cartItems)
 	{
 		
 		ModelAndView modelAndView = null;
@@ -131,14 +134,14 @@ public class BookController {
 			modelAndView.addObject("book_counts", bookCounts);
 			modelAndView.addObject("filtered_books", filteredBooks);
 		}
-		
+		modelAndView.addObject("logged_in_customer", loggedInCustomer);
 		return modelAndView;
 		
 	}
 
 	
 	@RequestMapping("/removeFromCart")
-	public ModelAndView removeFromCart(@ModelAttribute("filtered_books") ArrayList<Book> cartItems,
+	public ModelAndView removeFromCart(@ModelAttribute("logged_in_customer") Customer loggedInCustomer, @ModelAttribute("filtered_books") ArrayList<Book> cartItems,
 			@RequestParam("bookId") int bookId)
 	{
 		
