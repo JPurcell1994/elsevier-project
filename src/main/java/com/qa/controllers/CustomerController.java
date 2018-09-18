@@ -35,15 +35,6 @@ public class CustomerController {
 	
 	
 	
-	@ModelAttribute
-	public Customer c()
-	{
-		
-		return new Customer();
-	}
-	
-	
-	
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/")
 	public ModelAndView indexPage(HttpServletRequest request)
@@ -54,10 +45,6 @@ public class CustomerController {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("logged_in_customer")==null)
 		  session.setAttribute("logged_in_customer", new Customer());
-		
-		if(session.getAttribute("logged_in_customer") != null) {
-			return new ModelAndView("customer_home");
-		}
 		
 		Object items = session.getAttribute("cart_items");
 		
