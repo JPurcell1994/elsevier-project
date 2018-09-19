@@ -123,6 +123,8 @@
     	  cartTotal = cartTotal + book.getPrice()*quantity;
     	  System.out.println("Cart Total "+cartTotal);
     	  
+    	  session.setAttribute("order_total",cartTotal);
+    	  
       %>
        
         <img class="thumbnail" src="<%=book.getBookImage()%>"/>
@@ -210,6 +212,11 @@
             session.setAttribute("session_cart_total",cartTotal);
             session.setAttribute("session_checkout",true);
         %> --%>
+        
+        <%
+            session.setAttribute("session_checkout",true);
+        %>
+        
 		<%if(loggedIn){%>
 		<form action="/checkout" method="post" id="checkout_form">  
 		<%}else{%>
