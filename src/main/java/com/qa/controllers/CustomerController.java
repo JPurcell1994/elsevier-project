@@ -291,4 +291,18 @@ public class CustomerController {
 	    return "redirect:/";
 	}
 	
+	@RequestMapping("/about_us")
+    public String about_us()
+    {
+        
+        return "/contact";
+    }
+	
+	@RequestMapping("/contact")
+    public String contact()
+    {
+        
+        return "/contact";
+    }
+	
 }

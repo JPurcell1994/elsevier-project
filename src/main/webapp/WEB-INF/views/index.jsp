@@ -1,124 +1,61 @@
 
 
-
 <%@page import="com.qa.models.Customer"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="com.qa.models.Book"%>
 <%@page import="com.qa.models.Author"%>
+<%@ page import="java.sql.*" %>
+<%ResultSet resultset =null;%>
 
 <%@include file="header.jsp" %>
 
-   <%!
-
-  
-   Customer c;
-  boolean loggedIn;
-  
-  %>
-   
   
   <%
-  loggedIn = true; 
-  c = (Customer) session.getAttribute("logged_in_customer");
-  if(c.getFirstName()==null){
-	  loggedIn = false;
-  }
-  
-  %>
+    try{
+//Class.forName("com.mysql.jdbc.Driver").newInstance();
+Connection connection = 
+         DriverManager.getConnection
+            ("jdbc:mysql://localhost/elsevier?user=root&password=");
+       Statement statement = connection.createStatement() ;
+       resultset =statement.executeQuery("SELECT DISTINCT genre FROM book ORDER BY genre ASC;") ;
+       System.out.println(resultset);
+%>
     
-    <section>
+        <section>
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-3">
 					<div class="left-sidebar">
-						<h2>Genre</h2>
+						<h2>Search</h2>
 						<div class="panel-group category-products" id="accordian"><!--category-products-->
 						
-						     <form action="/search_results" method="get"> 
+			<form action="/search_results" method="get"> 
               
-               <label>Book search</label>
-                <input type="text" placeholder="Enter Title/Author" name="searchTerm" id="searchTerm" style=""/> 
+                <input type="text" placeholder="Book Search" name="searchTerm" id="searchTerm" style=""/> 
           
             	<input type="submit" class="btn btn-default" value="Search">
-              
+              <hr>
               </form>
-              
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Business</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Children</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Crime</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Death & Bereavement</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Education</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Fantasy</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Fiction</a></h4>
-								</div>
-							</div>
 
-									<input type="radio" name="genre" value="foodGenre"><h4 class="panel-title">Food<br></h4>
-									
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Historical</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Horror</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Love</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Mythological</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Political</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Self-help</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Work</a></h4>
-								</div>
-							</div>
-						</div><!--/category-products-->
+    <form action="/filter_results" method="get">
+     <!--  <input type="text" placeholder="Enter book title" name="searchTerm" id="searchTerm"> -->
+        <%  while(resultset.next()){ %>
+                    <input type="checkbox" name="genre" value="<%=resultset.getString(1)%>"> <%=resultset.getString(1)%><br>
+                <% } %>
+                <br>
+        <input type="submit" class="btn btn-default">
+    </form>
+
+         <%
+//**Should I input the codes here?**
+        }
+        catch(Exception e)
+        {
+             out.println("wrong entry"+e);
+        }
+%>
 					
 						
 						<div class="price-range"><!--price-range-->
@@ -129,16 +66,12 @@
 							</div>
 						</div><!--/price-range-->
 						
-						<div class="shipping text-center"><!--shipping-->
-							<img src="images/home/shipping.jpg" alt="" />
-						</div><!--/shipping-->
 					
 					</div>
 				</div>
 
+    </div>
 
-
-     <hr>
 
 	
 			<div class="col-sm-9 padding-right">
@@ -225,6 +158,7 @@
    </div>
   
 
+ 
 	<hr>
 	
 	

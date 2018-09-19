@@ -1,5 +1,20 @@
 <%@page import="com.qa.models.Customer"%>
-
+  <%
+   Customer c;
+  boolean loggedIn;
+  
+  %>
+   
+  
+  <%
+  loggedIn = true; 
+  c = (Customer) session.getAttribute("logged_in_customer");
+  if(c.getFirstName()==null){
+	  loggedIn = false;
+  }
+  
+  %>
+  
 <!doctype html>
 <html class="no-js" lang="en">
   <head>
@@ -75,7 +90,6 @@
                                    <ul role="menu" class="sub-menu">
                                    	<li><a href="/profile">Personal Details</a></li>
             						<li><a href="/addressBook">Address Book</a></li>
-            						<li><a href="#">Change Password </a></li>
             						<li><a href="#">Order History </a></li>                                     
                                    </ul>
                                </li>                         
@@ -84,7 +98,7 @@
                 						<li><a href="/viewCart"><img src="images/cart.jpg" width="20" height="20"/>View Your Cart</a></li>
               						</ul>
                               
-                                <li><a href="login.html" class="active"><i class="fa fa-lock"></i> Login</a></li>
+                                <li><a href="login" class="active"><i class="fa fa-lock"></i> Login</a></li>
                                 <li><a href="/register"><i class=""></i> Register</a></li>
                                 <li><a href="/logout">Logout</a></li> 
                             </ul>
@@ -109,9 +123,9 @@
                         </div>
                         <div class="mainmenu pull-left">
                             <ul class="nav navbar-nav collapse navbar-collapse">
-                                <li><a href="/index">Home</a></li>
-                                <li><a href="404.html">About Us</a></li>                           
-                                <li><a href="contact-us.html">Contact</a></li>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="/about_us">About Us</a></li>                           
+                                <li><a href="/contact">Contact</a></li>
                                 </ul>
                         </div>
                     </div>

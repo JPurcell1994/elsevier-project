@@ -1,45 +1,33 @@
-<!doctype html>
+
+<%@page import="com.qa.models.Customer"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="com.qa.models.Book"%>
+<%@page import="com.qa.models.Author"%>
 <%@ page import="java.sql.*" %>
 <%ResultSet resultset =null;%>
-<html class="no-js" lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Online Shopping</title>
-    <link rel="stylesheet" href="css/style.css"/>
-  </head>
-  <body>
-    <!-- Start Top Bar -->
-    <div class="top-bar">
-      <div class="top-bar-left">
-        <ul class="menu">
-          <li class="menu-text" style="color:red">Online Shopping</li>
-          <li><a href="/index">Home</a></li>
-          
-        </ul>
-      </div>
-      <div class="top-bar-right">
-        
-             <ul class="dropdown menu" data-dropdown-menu>
-            
-            <li class="has-submenu">
-              <a href="/viewCart"><img src="images/cart.jpg" width="50" height="50"/></a>
-              <ul class="submenu menu vertical" data-submenu>
-                <li><a href="/viewCart"><img src="images/cart.jpg" width="50" height="50"/></a></li>
-                <li><a href="/login">Register | Login</a></li>
-              </ul>
-            </li>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Contact</a></li>
-          </ul>
-          
-      </div>
-    </div>
-    <!-- End Top Bar -->
+
+<%@include file="header.jsp" %>
+
+   <%!
+
+  
+   Customer c;
+  boolean loggedIn;
+  
+  %>
+   
+  
+  <%
+  loggedIn = true; 
+  c = (Customer) session.getAttribute("logged_in_customer");
+  if(c.getFirstName()==null){
+	  loggedIn = false;
+  }
+  
+  %>
+  
 <%
     try{
 //Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -47,11 +35,26 @@ Connection connection =
          DriverManager.getConnection
             ("jdbc:mysql://localhost/elsevier?user=root&password=");
        Statement statement = connection.createStatement() ;
-       resultset =statement.executeQuery("SELECT DISTINCT genre FROM book;") ;
+       resultset =statement.executeQuery("SELECT DISTINCT genre FROM book ORDER BY genre ASC;") ;
        System.out.println(resultset);
 %>
 
- <div class="row column text-center">
+    <section>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="left-sidebar">
+						<h2>Search</h2>
+						<div class="panel-group category-products" id="accordian"><!--category-products-->
+						
+			<form action="/search_results" method="get"> 
+              
+                <input type="text" placeholder="Book Search" name="searchTerm" id="searchTerm" style=""/> 
+          
+            	<input type="submit" class="btn btn-default" value="Search">
+              <hr>
+              </form>
+
     <form action="/filter_results" method="get">
      <!--  <input type="text" placeholder="Enter book title" name="searchTerm" id="searchTerm"> -->
         <%  while(resultset.next()){ %>
@@ -60,6 +63,8 @@ Connection connection =
                 
         <input type="submit">
     </form>
+    </div>
+    </div>
     </div>
          <%
 //**Should I input the codes here?**
@@ -70,46 +75,80 @@ Connection connection =
         }
 %>
     
-    <div class="row column text-center">
-      <h2>Search Results
-      
-      
-      <%
-         Iterable<Book> books = (Iterable<Book>) session.getAttribute("books");
-          
-      %>
-      
-      
-      </h2>
-      <hr>
-    </div>
-    <div class="row small-up-2 large-up-4">
-    
-    <%
-    
-    for(Book book: books)
-    {
-      
+    					<div class="features_items"><!--search_result_items-->
+						<h2 class="title text-center">Research Results</h2>
+
+
+   <%
    
-    %>
-      <div class="column">
-      
-        <a href="/bookDetails?bookId=<%=book.getBookId()%>"><img class="thumbnail" src="<%=book.getBookImage()%>"></a>
-        <h5><%= book.getTitle()%></h5>
-        <p>$<%= book.getPrice()%></p>
-        <a href="/bookDetails?bookId=<%=book.getBookId()%>" class="button expanded">View book details</a>
-        <!--  a href="/addToCart?bookId=" class="button expanded">Add to Cart</a>-->
+   Iterable<Book> books = (Iterable<Book>) session.getAttribute("books");
+   for(Book book: books)
+   {
+       
+       
+   %>
+     <div class="col-sm-4">
+				<div class="product-image-wrapper">
+					<div class="single-products">
+						<div class="productinfo text-center">
+
+       <a href="/bookDetails?bookId=<%=book.getBookId()%>"><img class="thumbnail" src="<%=book.getBookImage()%>"></a>
+       <h4>
+           <% for(Author author : book.getAuthors()) {%>
+               <%= author %>
+           <% } %>
+       </h4>
+       <h5><%= book.getTitle()%></h5>
+       
+       
+       <p>£<%= book.getPrice()%></p>
+       
+        <% 
+        if (book.geteBookISBN() !=null && book.getPaperISBN() !=null)
+         {
+             %>
+           Paper and eBook Available
+
+           <%
+         }
+           
+       
+        else if(book.geteBookISBN() !=null)
+         {
+             %>
+           eBook Available
+
+           <%
+         }
+         
+         else
+             {
+             %>
+           Paper book Available
+          <%
+           }
+           
+          %>
+       
+       <a href="/bookDetails?bookId=<%=book.getBookId()%>" class="btn btn-default">View book details</a>
+       <a href="/addToCart?bookId=" class="btn btn-default">Add to Cart</a>
       </div>
+   </div>
+   </div>
+   </div>
+
+   <%
+   }
+   %>
+
+   </div>
+       </div>
+       </div>
+  
+
+	<hr>
+	
+	
+	</section>
     
-    <%
-    }
-    %>  
-    </div>
-    <hr>
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="js/elsevier.js"></script>
-    <script>
-      $(document).foundation();
-    </script> 
-  </body>
-</html>
+    <%@ include file="footer.jsp" %>
