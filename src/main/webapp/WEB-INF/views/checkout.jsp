@@ -19,7 +19,7 @@
     
      <%
     
-    double orderTotal = (Double) request.getAttribute("order_total");
+    double orderTotal = (Double) session.getAttribute("order_total");
     
     %>
     

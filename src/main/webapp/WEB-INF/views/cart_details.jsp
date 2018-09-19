@@ -212,6 +212,11 @@
             session.setAttribute("session_cart_total",cartTotal);
             session.setAttribute("session_checkout",true);
         %> --%>
+        
+        <%
+            session.setAttribute("session_checkout",true);
+        %>
+        
 		<%if(loggedIn){%>
 		<form action="/checkout" method="post" id="checkout_form">  
 		<%}else{%>

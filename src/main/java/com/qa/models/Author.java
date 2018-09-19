@@ -76,6 +76,8 @@ public class Author {
 	public void setExpertise(String expertise) {
 		this.expertise = expertise;
 	}
-	
-	
+
+	public String toString() {
+		return authorName;
+	}
 }
